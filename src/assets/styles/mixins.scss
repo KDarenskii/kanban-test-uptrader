@@ -1,0 +1,37 @@
+@import "./vars.scss";
+
+@mixin md-lgx {
+    @media (max-width: $lgx) {
+        @content;
+    }
+}
+
+@mixin md-lg {
+    @media (max-width: $lg) {
+        @content;
+    }
+}
+
+@mixin md-md {
+    @media (max-width: $md) {
+        @content;
+    }
+}
+
+@mixin md-sm {
+    @media (max-width: $sm) {
+        @content;
+    }
+}
+
+@mixin md-smm {
+    @media (max-width: $smm) {
+        @content;
+    }
+}
+
+@mixin md-smx {
+    @media (max-width: $smx) {
+        @content;
+    }
+}

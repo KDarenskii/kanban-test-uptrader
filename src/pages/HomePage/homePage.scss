@@ -1,0 +1,13 @@
+.home-page-header {
+    // .home-page-header__wrapper
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+}
+
+.home-page-main {
+    padding: 40px 0;
+}

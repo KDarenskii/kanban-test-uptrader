@@ -17,6 +17,7 @@
         "^helpers/(.*)$",
         "^types/(.*)$",
         "^assets/(.*)$",
+        "^constants/(.*)$",
         "^[./]"
     ],
     "importOrderSeparation": true,

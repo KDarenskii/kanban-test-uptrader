@@ -1,9 +1,9 @@
 import { FC } from "react";
 
-interface Props {}
+import Router from "./Router";
 
-const App: FC<Props> = () => {
-    return <div></div>;
+const App: FC = () => {
+    return <Router />;
 };
 
 export default App;

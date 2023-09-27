@@ -1,0 +1,67 @@
+.project-card {
+    display: block;
+    padding: 25px 30px;
+    border-radius: 20px;
+    background-color: var(--color-dark-grey);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    &:hover {
+        transform: translate3d(3px, -3px, 0);
+    }
+    // .project-card__title
+    &__title {
+        font-size: 21px;
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        white-space: nowrap;
+        margin-bottom: 10px;
+    }
+    // .project-card__description
+    &__description {
+        font-size: 16px;
+        color: var(--color-grey);
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        white-space: nowrap;
+        margin-bottom: 10px;
+    }
+    // .project-card__completeness
+    &__completeness {
+        position: relative;
+        padding-bottom: 20px;
+    }
+    // .project-card__completeness-stat
+    &__completeness-stat {
+        font-size: 14px;
+        color: var(--color-grey);
+    }
+    &__completeness-range,
+    &__completeness-percents {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        border-radius: 2px;
+    }
+    // .project-card__completeness-range
+    &__completeness-range {
+        width: 100%;
+        background-color: var(--color-grey);
+        &::before {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: -15px;
+            bottom: 100%;
+            background: url("../../../assets/img/icons/finish.svg") center
+                no-repeat;
+            background-size: cover;
+        }
+    }
+    // .project-card__completeness-percents
+    &__completeness-percents {
+        background-color: var(--color-white);
+    }
+}

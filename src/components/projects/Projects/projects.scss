@@ -1,0 +1,28 @@
+@import "src/assets/styles/mixins.scss";
+
+.projects {
+    // .projects__title
+    &__title {
+        font-size: 35px;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+    // .projects__list
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(200px, 264px));
+        gap: 20px;
+        @include md-lgx {
+            grid-template-columns: repeat(4, minmax(200px, 328px));
+        }
+        @include md-lg {
+            grid-template-columns: repeat(3, minmax(200px, 362px));
+        }
+        @include md-md {
+            grid-template-columns: repeat(2, minmax(200px, 464px));
+        }
+        @include md-smm {
+            grid-template-columns: repeat(1, minmax(200px, 633px));
+        }
+    }
+}
