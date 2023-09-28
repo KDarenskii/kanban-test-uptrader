@@ -1,11 +1,10 @@
-import { ComponentProps, ElementType, ReactNode } from "react";
+import { ComponentProps, ElementType } from "react";
 
 import cn from "clsx";
 
 import "./actionButton.scss";
 
 type ButtonCustomProps<E extends ElementType = ElementType> = {
-    children: ReactNode;
     variant?: "light" | "dark";
     as?: E;
 };

@@ -3,9 +3,9 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 
 import { Header } from "components/layout/Header";
+import { AddProjectModal } from "components/projects/AddProjectModal";
 import { Projects } from "components/projects/Projects";
 import { Logo } from "components/shared/Logo";
-import { ActionButton } from "components/ui/ActionButton";
 
 import { HOME_PATH } from "constants/routes";
 
@@ -19,7 +19,7 @@ const HomePage: FC = () => {
                     <Link to={HOME_PATH}>
                         <Logo />
                     </Link>
-                    <ActionButton>+ Add New Project</ActionButton>
+                    <AddProjectModal />
                 </div>
             </Header>
             <main className="home-page-main">

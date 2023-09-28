@@ -1,36 +1,43 @@
-//<====Layout=========>
 $containerWidth: 1440px;
 
-//<====Breakpoints=====>
-$lgx: $containerWidth; //большие мониторы
-$lg: 1170px; //пк и ноутбуки
-$md: 991.98px; //планшеты
-$sm: 767.96px; //телефоны
-$smm: 677px; //телефоны
-$smx: 479.98px; //телефоны
+// Breakpoints
+$lgx: $containerWidth;
+$lg: 1170px;
+$md: 991.98px;
+$sm: 767.96px;
+$smm: 677px;
+$smx: 479.98px;
 
-// ==== Colors =====
-$grey: #565a69;
-$dark-grey: #2c2c37;
-$light-grey: #e8f0fb;
-$black: #21222d;
-$white: #ffffff;
-$blue: #645dc6;
-$light-blue: #f4f7ff;
+$colors: (
+    "grey": #565a69,
+    "dark-grey": #2c2c37,
+    "light-grey": #e8f0fb,
+    "black": #21222d,
+    "white": #ffffff,
+    "blue": #645dc6,
+    "light-blue": #f4f7ff,
+    "red": #f87171,
+);
 
-// Typography
-$main-font-family: "Roboto", sans-serif;
-$main-font-size: 1rem;
+@function HexToRGB($hex) {
+    @return red($hex), green($hex), blue($hex);
+}
 
 :root {
     // Colors
-    --color-grey: #{$grey};
-    --color-dark-grey: #{$dark-grey};
-    --color-light-grey: #{$light-grey};
-    --color-black: #{$black};
-    --color-white: #{$white};
-    --color-blue: #{$blue};
-    --color-light-blue: #{$light-blue};
+    @if $colors {
+        @each $key, $value in $colors {
+            --color-#{$key}: #{$value};
+            --color-#{$key}--rgb: #{HexToRGB($value)};
+        }
+    }
+
+    // Typography
+    --font-family: "Roboto", sans-serif;
+    --font-size: 1rem;
+
+    // Layout
+    --container-width: #{$containerWidth};
 
     // Breakpoints
     --bp-lgx: #{$lgx};
@@ -39,11 +46,4 @@ $main-font-size: 1rem;
     --bp-sm: #{$sm};
     --bp-smm: #{$smm};
     --bp-smx: #{smx};
-
-    // Typography
-    --font-family: #{$main-font-family};
-    --font-size: #{$main-font-size};
-
-    // Layout
-    --container-width: #{$containerWidth};
 }
