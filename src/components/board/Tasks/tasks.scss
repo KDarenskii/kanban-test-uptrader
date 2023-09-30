@@ -1,0 +1,13 @@
+.tasks {
+    height: 100%;
+    // .tasks__wrapper
+    &__wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(318px, 400px));
+        gap: 1rem;
+        width: 100%;
+        max-width: 1200px;
+        height: 100%;
+        margin: 0 auto;
+    }
+}

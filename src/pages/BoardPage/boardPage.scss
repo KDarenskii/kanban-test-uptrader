@@ -1,0 +1,23 @@
+.board-page-header {
+    // .board-page-header__wrapper
+    &__wrapper {
+        display: flex;
+        align-items: center;
+    }
+    // .board-page-header__controls
+    &__controls {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-left: 1px solid var(--color-light-grey);
+        margin-left: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+.board-page-main {
+    padding: 1.5rem 0;
+    height: calc(100% - 83.2px);
+}

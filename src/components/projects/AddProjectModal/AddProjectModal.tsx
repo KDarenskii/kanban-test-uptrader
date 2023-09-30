@@ -1,29 +1,27 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import { ModalBody, ModalHeader, ModalRoot } from "components/shared/Modal";
 import { ActionButton } from "components/ui/ActionButton";
 
 import { AddProjectForm } from "./AddProjectForm";
 import "./addProjectModal.scss";
+import useAddProjectModal from "./useAddProjectModal";
 
-interface Props {}
-
-const AddProjectModal: FC<Props> = () => {
-    const [isActive, setIsActive] = useState(false);
+const AddProjectModal: FC = () => {
+    const { handleAddProject, handleClose, handleOpen, isActive } =
+        useAddProjectModal();
 
     return (
         <>
-            <ActionButton onClick={() => setIsActive(true)}>
-                + Add New Project
-            </ActionButton>
-            <ModalRoot isActive={isActive} onClose={() => setIsActive(false)}>
+            <ActionButton onClick={handleOpen}>+ Add New Project</ActionButton>
+            <ModalRoot isActive={isActive} onClose={handleClose}>
                 <ModalBody>
                     <ModalHeader
                         className="add-project-modal-header"
                         title="Add new project"
-                        onClose={() => setIsActive(false)}
+                        onClose={handleClose}
                     />
-                    <AddProjectForm />
+                    <AddProjectForm onSubmit={handleAddProject} />
                 </ModalBody>
             </ModalRoot>
         </>

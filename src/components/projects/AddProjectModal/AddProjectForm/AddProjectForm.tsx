@@ -18,15 +18,11 @@ import { Textarea } from "components/ui/Textarea";
 
 import useFocus from "hooks/shared/useFocus";
 
+import { formErrors } from "constants/formErrors";
+
 import "./addProjectForm.scss";
 
-const formErrors = {
-    required: "Required field",
-    maxLengthLimit: (length: number) => `Max length: ${length}`,
-    minLengthLimit: (length: number) => `Min length: ${length}`,
-} as const;
-
-interface ProjectFormState {
+export interface ProjectFormState {
     title: string;
     description: string;
 }
@@ -37,7 +33,7 @@ interface FieldProps {
 }
 
 interface FormProps {
-    onSubmit?: (data: ProjectFormState) => void;
+    onSubmit: (data: ProjectFormState) => void;
     className?: string;
 }
 
@@ -56,7 +52,7 @@ const AddProjectForm: FC<FormProps> = ({ onSubmit, className }) => {
 
     const handleSubmit: SubmitHandler<ProjectFormState> = (data) => {
         console.log(data);
-        onSubmit?.(data);
+        onSubmit(data);
         reset();
     };
 

@@ -1,0 +1,41 @@
+.task-card {
+    width: 100%;
+    padding: 1.3rem;
+    border-radius: 0.125rem;
+    background-color: var(--color-dark-grey);
+    cursor: grab;
+    transition: all 0.2s ease;
+    &--grabbing {
+        cursor: grabbing;
+        opacity: 0.5;
+        transform: rotate(2deg);
+    }
+    &--shadow-top {
+        box-shadow:
+            rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+            rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+            rgb(100, 93, 198) 0px -4px 5px 0px;
+    }
+    &--shadow-bottom {
+        box-shadow:
+            rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+            rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+            rgb(100, 93, 198) 0px 4px 5px 0px;
+    }
+    // .task-card__title
+    &__title {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+        color: var(--color-white);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        pointer-events: none;
+    }
+    // .task-card__completeness
+    &__completeness {
+        font-size: 0.9rem;
+        line-height: 1.25rem;
+        color: var(--color-grey);
+        pointer-events: none;
+    }
+}

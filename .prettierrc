@@ -13,6 +13,7 @@
         "^components/(.*)$",
         "^store/(.*)$",
         "^hooks/(.*)$",
+        "^services/(.*)$",
         "^api/(.*)$",
         "^helpers/(.*)$",
         "^types/(.*)$",

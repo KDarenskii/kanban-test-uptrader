@@ -1,0 +1,29 @@
+.add-task-form {
+    // .add-task-form__group
+    &__group {
+        margin-bottom: 1.25rem;
+    }
+    // .add-task-form__input
+    &__input {
+        width: 100%;
+    }
+    // .add-task-form__input-group
+    &__input-group {
+        margin-bottom: 0.5rem;
+    }
+    // .add-task-form__input-icon
+    &__input-icon {
+        display: block;
+        width: 1.25rem;
+        height: 1.5rem;
+        fill: var(--color-grey);
+        transition: fill 0.2s ease;
+        &:hover {
+            fill: var(--color-white);
+        }
+    }
+    // .add-task-form__btn
+    &__btn {
+        width: 100%;
+    }
+}
