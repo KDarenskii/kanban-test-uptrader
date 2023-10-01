@@ -1,5 +1,7 @@
 import { FC, useImperativeHandle } from "react";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
     Control,
     Controller,
@@ -17,11 +19,14 @@ import { FieldError } from "components/ui/FieldError";
 import { FieldGroup } from "components/ui/FieldGroup";
 import { Input, InputGroup } from "components/ui/Input";
 import { Label } from "components/ui/Label";
+import { Option, Select } from "components/ui/Select";
 import { Textarea } from "components/ui/Textarea";
 
 import useFocus from "hooks/shared/useFocus";
 
 import { formErrors } from "constants/formErrors";
+import { TaskPriority } from "constants/taskPriority";
+import { TaskStatuses } from "constants/taskStatuses";
 
 import "./addTaskForm.scss";
 
@@ -29,7 +34,10 @@ export interface AddTaskFormState {
     title: string;
     description: string;
     subtasks: { title: string }[];
-    files: File | null;
+    file: File | null;
+    finishDate: Date;
+    priority: TaskPriority;
+    status: TaskStatuses;
 }
 
 interface FieldProps {
@@ -42,11 +50,26 @@ interface FormProps {
     onSubmit: (data: AddTaskFormState) => void;
 }
 
+const statusOptions: Option<TaskStatuses>[] = [
+    { value: TaskStatuses.QUEUE, label: "Queue" },
+    { value: TaskStatuses.DEVELOPING, label: "Developing" },
+    { value: TaskStatuses.DONE, label: "Done" },
+];
+
+const priorityOptions: Option<TaskPriority>[] = [
+    { value: TaskPriority.TRIVIAL, label: "Trivial" },
+    { value: TaskPriority.MINOR, label: "Minor" },
+    { value: TaskPriority.MAJOR, label: "Major" },
+];
+
 const defaultValues: AddTaskFormState = {
     title: "",
     description: "",
     subtasks: [{ title: "" }, { title: "" }],
-    files: null,
+    file: null,
+    finishDate: new Date(),
+    priority: priorityOptions[0].value,
+    status: statusOptions[0].value,
 };
 
 const AddTaskForm: FC<FormProps> = ({ onSubmit }) => {
@@ -73,12 +96,17 @@ const AddTaskForm: FC<FormProps> = ({ onSubmit }) => {
             <Description register={register} error={errors.description} />
             <Subtasks control={control} register={register} />
             <Files control={control} register={register} />
+            <Status register={register} />
+            <Priority register={register} />
+            <FinishDate register={register} control={control} />
             <ActionButton className="add-task-form__btn" type="submit">
-                Create project
+                Create task
             </ActionButton>
         </form>
     );
 };
+
+export default AddTaskForm;
 
 function Title({ register, error }: FieldProps) {
     const LENGTH_LIMIT = 35;
@@ -187,7 +215,7 @@ function Files({ control }: FieldProps) {
         <FieldGroup className="add-task-form__group">
             <Label htmlFor="add-task-form-file">Files</Label>
             <Controller
-                name="files"
+                name="file"
                 control={control}
                 render={({ field: { value, onChange, ...field } }) => {
                     return (
@@ -207,4 +235,56 @@ function Files({ control }: FieldProps) {
     );
 }
 
-export default AddTaskForm;
+function Status({ register }: FieldProps) {
+    return (
+        <FieldGroup className="add-task-form__group">
+            <Label htmlFor="add-task-form-status">Status</Label>
+            <Select {...register("status")} id="add-task-form-status">
+                {statusOptions.map(({ label, value }) => (
+                    <option value={value} key={value}>
+                        {label}
+                    </option>
+                ))}
+            </Select>
+        </FieldGroup>
+    );
+}
+
+function Priority({ register }: FieldProps) {
+    return (
+        <FieldGroup className="add-task-form__group">
+            <Label htmlFor="add-task-form-priority">Priority</Label>
+            <Select {...register("priority")} id="add-task-form-priority">
+                {priorityOptions.map(({ label, value }) => (
+                    <option value={value} key={value}>
+                        {label}
+                    </option>
+                ))}
+            </Select>
+        </FieldGroup>
+    );
+}
+
+function FinishDate({ control }: FieldProps) {
+    return (
+        <FieldGroup className="add-task-form__group">
+            <Label htmlFor="add-task-form-date">Finish date</Label>
+            <Controller
+                name="finishDate"
+                control={control}
+                render={({ field: { value, onChange, ...field } }) => {
+                    return (
+                        <DatePicker
+                            {...field}
+                            selected={value}
+                            onChange={(date) => onChange(date)}
+                            id="add-task-form-date"
+                            className="add-task-form__date-input"
+                            wrapperClassName="add-task-form__date-wrapper"
+                        />
+                    );
+                }}
+            />
+        </FieldGroup>
+    );
+}

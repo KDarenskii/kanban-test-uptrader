@@ -1,3 +1,4 @@
+import { TaskPriority } from "constants/taskPriority";
 import { TaskStatuses } from "constants/taskStatuses";
 
 export interface ISubtask {
@@ -11,4 +12,12 @@ export interface ITask extends ISubtask {
     status: TaskStatuses;
     subtasks: ISubtask[];
     projectId: string;
+    createdAt: Date;
+    finishDate: Date;
+    priority: TaskPriority;
+    number: number;
+    file: {
+        name: string;
+        blob: Blob;
+    } | null;
 }

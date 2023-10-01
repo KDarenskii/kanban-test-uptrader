@@ -17,17 +17,17 @@ const Projects: FC = () => {
             <Container>
                 <h1 className="projects__title">Your projects</h1>
                 <ul className="projects__list">
-                    {projectsList.map((project) => (
-                        <li key={project.id}>
-                            <ProjectCard
-                                id={project.id}
-                                title={project.title}
-                                description={project.description}
-                                completedTasksCount={2}
-                                totalTasksCount={10}
-                            />
-                        </li>
-                    ))}
+                    {projectsList.map((project) => {
+                        return (
+                            <li key={project.id}>
+                                <ProjectCard
+                                    id={project.id}
+                                    title={project.title}
+                                    description={project.description}
+                                />
+                            </li>
+                        );
+                    })}
                 </ul>
             </Container>
         </section>

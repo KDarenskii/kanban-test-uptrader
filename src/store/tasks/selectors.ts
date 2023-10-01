@@ -14,6 +14,11 @@ interface FilteredTasks {
 
 export const selectTasks = (state: RootState) => state.tasksReducer.tasks;
 
+export const selectTaskById = (state: RootState, id: string | null) => {
+    if (id === null) return null;
+    return state.tasksReducer.tasks.find((task) => task.id === id) ?? null;
+};
+
 export const selectTasksByProjectId = createSelector(
     [selectTasks, (_, projectId: string) => projectId],
     (tasks, projectId) => {

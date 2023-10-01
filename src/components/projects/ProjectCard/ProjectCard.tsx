@@ -3,6 +3,10 @@ import { FC } from "react";
 import cn from "clsx";
 import { Link } from "react-router-dom";
 
+import { selectFilteredTasks } from "store/tasks/selectors";
+
+import useTypedSelector from "hooks/shared/useTypedSelector";
+
 import { BOARD_PATH } from "constants/routes";
 
 import "./projectCard.scss";
@@ -11,21 +15,18 @@ interface Props {
     id: string;
     title: string;
     description: string;
-    totalTasksCount: number;
-    completedTasksCount: number;
     className?: string;
 }
 
-const ProjectCard: FC<Props> = ({
-    id,
-    title,
-    className,
-    description,
-    completedTasksCount,
-    totalTasksCount,
-}) => {
+const ProjectCard: FC<Props> = ({ id, title, className, description }) => {
+    const { developingTasks, doneTasks, queueTasks } = useTypedSelector(
+        (state) => selectFilteredTasks(state, id),
+    );
+    const totalTasksCount =
+        developingTasks.length + doneTasks.length + queueTasks.length;
+
     const completenessPercents = Math.floor(
-        (completedTasksCount / totalTasksCount) * 100,
+        (doneTasks.length / totalTasksCount) * 100,
     );
 
     return (
@@ -37,7 +38,7 @@ const ProjectCard: FC<Props> = ({
             <p className="project-card__description">{description}</p>
             <div className="project-card__completeness">
                 <p className="project-card__completeness-stat">
-                    Done: {completedTasksCount} of {totalTasksCount} tasks
+                    Done: {doneTasks.length} of {totalTasksCount} tasks
                 </p>
                 <div className="project-card__completeness-range" />
                 <div

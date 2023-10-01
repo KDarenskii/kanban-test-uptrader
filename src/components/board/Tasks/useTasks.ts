@@ -1,6 +1,9 @@
 import { DragEvent, useState } from "react";
 
+import { selectFilteredTasks } from "store/tasks/selectors";
+
 import useTypedDispatch from "hooks/shared/useTypedDispatch";
+import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import { ITask } from "types/task.interface";
 
@@ -18,18 +21,40 @@ export interface IList {
     tasks: ITask[];
 }
 
-const useTasks = () => {
+const useTasks = (projectId: string) => {
     const dispatch = useTypedDispatch();
 
     const [currentList, setCurrentList] = useState<IList | null>(null);
     const [currentTask, setCurrentTask] = useState<ITask | null>(null);
+
+    const filteredTasks = useTypedSelector((state) =>
+        selectFilteredTasks(state, projectId),
+    );
+
+    const columns = [
+        {
+            status: TaskStatuses.QUEUE,
+            title: "QUEUE",
+            tasks: filteredTasks.queueTasks,
+        },
+        {
+            status: TaskStatuses.DEVELOPING,
+            title: "DEVELOPING",
+            tasks: filteredTasks.developingTasks,
+        },
+        {
+            status: TaskStatuses.DONE,
+            title: "DONE",
+            tasks: filteredTasks.doneTasks,
+        },
+    ];
 
     const handleDragStart = (
         event: DragEvent<HTMLElement>,
         list: IList,
         task: ITask,
     ) => {
-        const target = event.currentTarget;
+        const target = event.target as HTMLElement;
         target.classList.add(GRABBING_CLASS_NAME);
 
         setCurrentList(list);
@@ -37,7 +62,7 @@ const useTasks = () => {
     };
 
     const handleDragEnd = (event: DragEvent<HTMLElement>) => {
-        const target = event.currentTarget;
+        const target = event.target as HTMLElement;
         const taskElement = target.closest(TASK_DATA_ATTRIBUTE_NAME);
         if (taskElement) {
             taskElement.classList.remove(GRABBING_CLASS_NAME);
@@ -69,6 +94,45 @@ const useTasks = () => {
                 SHADOW_BOTTOM_CLASS_NAME,
                 SHADOW_TOP_CLASS_NAME,
             );
+    };
+
+    const handleDragDrop = (
+        event: DragEvent<HTMLElement>,
+        targetTaskId: string,
+        dropOnListStatus: TaskStatuses,
+    ) => {
+        event.preventDefault();
+
+        const target = event.target as HTMLElement;
+        const taskElement = target.closest(
+            TASK_DATA_ATTRIBUTE_NAME,
+        ) as HTMLElement;
+
+        if (
+            !currentTask ||
+            !currentList ||
+            targetTaskId === currentTask.id ||
+            !taskElement
+        )
+            return;
+
+        taskElement.classList.remove(
+            SHADOW_BOTTOM_CLASS_NAME,
+            SHADOW_TOP_CLASS_NAME,
+        );
+
+        const isInsertAbove =
+            event.nativeEvent.offsetY < taskElement.offsetHeight / 2;
+
+        dispatch({
+            type: "SWAP_TASKS",
+            payload: {
+                dir: isInsertAbove ? "up" : "down",
+                dropOnTaskId: targetTaskId,
+                taskToSwapId: currentTask.id,
+                newStatus: dropOnListStatus,
+            },
+        });
     };
 
     const handleListDragOver = (
@@ -115,6 +179,10 @@ const useTasks = () => {
         dispatch({ type: "UPDATE_TASK", payload: updatedTask });
     };
 
+    const handleOpenFullTaskModal = (task: ITask) => {
+        dispatch({ type: "OPEN_TASK_MODAL", payload: task.id });
+    };
+
     return {
         handleDragStart,
         handleDragEnd,
@@ -123,6 +191,9 @@ const useTasks = () => {
         handleListDragOver,
         handleListDragLeave,
         handleListDrop,
+        handleOpenFullTaskModal,
+        handleDragDrop,
+        columns,
     };
 };
 

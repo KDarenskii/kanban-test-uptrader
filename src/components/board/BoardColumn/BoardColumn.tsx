@@ -29,6 +29,12 @@ interface Props {
         event: DragEvent<HTMLUListElement>,
         length: number,
     ) => void;
+    onTaskDragDrop: (
+        event: DragEvent<HTMLElement>,
+        targetTaskId: string,
+        dropOnListStatus: TaskStatuses
+    ) => void;
+    onTaskClick: (task: ITask) => void;
     className?: string;
 }
 
@@ -44,6 +50,8 @@ const BoardColumn: FC<Props> = ({
     onListDragLeave,
     onListDragOver,
     onListDrop,
+    onTaskClick,
+    onTaskDragDrop,
 }) => {
     const hasTasks = tasks.length > 0;
 
@@ -66,6 +74,8 @@ const BoardColumn: FC<Props> = ({
                         onDragEnd={onDragEnd}
                         onDragOver={onDragOver}
                         onDragLeave={onDragLeave}
+                        onDragDrop={onTaskDragDrop}
+                        onClick={onTaskClick}
                     />
                 ))}
                 {!hasTasks && <EmptyColumn />}

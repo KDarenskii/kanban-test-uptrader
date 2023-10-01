@@ -35,6 +35,36 @@ const tasksReducer = (
                     return task;
                 }),
             };
+        case ACTIONS.SWAP_TASKS:
+            const { dir, dropOnTaskId, taskToSwapId, newStatus } =
+                action.payload;
+            const taskToSwapIndex = state.tasks.findIndex(
+                (task) => task.id === taskToSwapId,
+            );
+            const dropOnTaskIndex = state.tasks.findIndex(
+                (task) => task.id === dropOnTaskId,
+            );
+
+            if (taskToSwapIndex === -1 || dropOnTaskIndex === -1) {
+                return state;
+            }
+
+            const newTasksArray = [...state.tasks];
+            // mutates the array
+            const deletedTask = newTasksArray.splice(taskToSwapIndex, 1);
+            deletedTask[0].status = newStatus;
+
+            console.log(deletedTask);
+
+            const indexToInsert =
+                dir === "up" ? dropOnTaskIndex : dropOnTaskIndex + 1;
+
+            newTasksArray.splice(indexToInsert, 0, deletedTask[0]);
+
+            return {
+                ...state,
+                tasks: newTasksArray,
+            };
         default:
             return state;
     }

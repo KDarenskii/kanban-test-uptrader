@@ -1,0 +1,9 @@
+.checkbox-label-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--color-black);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
