@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/kanban-test-uptrader/static/css/main.922c7ea1.css",
+    "main.js": "/kanban-test-uptrader/static/js/main.f2e2079c.js",
+    "static/media/finish.svg": "/kanban-test-uptrader/static/media/finish.308d6143985f737e247a.svg",
+    "index.html": "/kanban-test-uptrader/index.html",
+    "main.922c7ea1.css.map": "/kanban-test-uptrader/static/css/main.922c7ea1.css.map",
+    "main.f2e2079c.js.map": "/kanban-test-uptrader/static/js/main.f2e2079c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.922c7ea1.css",
+    "static/js/main.f2e2079c.js"
+  ]
+}
