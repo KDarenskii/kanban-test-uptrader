@@ -35,10 +35,7 @@ const BoardPage: FC = () => {
                     <Link to={HOME_PATH}>
                         <Logo />
                     </Link>
-                    <div className="board-page-header__controls">
-                        <h2>{project.title}</h2>
-                        <AddTaskModal projectId={id} />
-                    </div>
+                    <AddTaskModal projectId={id} />
                 </div>
             </Header>
             <main className="board-page-main">

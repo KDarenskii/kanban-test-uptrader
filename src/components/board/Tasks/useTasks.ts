@@ -123,7 +123,6 @@ const useTasks = (projectId: string) => {
 
         const isInsertAbove =
             event.nativeEvent.offsetY < taskElement.offsetHeight / 2;
-
         dispatch({
             type: "SWAP_TASKS",
             payload: {

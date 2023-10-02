@@ -40,6 +40,10 @@ const TaskCard: FC<Props> = ({
     onDragLeave,
     onDragDrop,
 }) => {
+    const doneSubtasksCount = task.subtasks.reduce((counter, subtask) => {
+        return subtask.isCompleted ? counter + 1 : counter;
+    }, 0);
+
     return (
         <article
             data-task={task.id}
@@ -53,7 +57,9 @@ const TaskCard: FC<Props> = ({
             draggable={true}
         >
             <h6 className="task-card__title">{task.title}</h6>
-            <p className="task-card__completeness">1 of 2 subtasks</p>
+            <p className="task-card__completeness">
+                {doneSubtasksCount} of {task.subtasks.length} subtasks
+            </p>
         </article>
     );
 };

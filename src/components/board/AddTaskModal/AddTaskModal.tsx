@@ -17,7 +17,7 @@ const AddTaskModal: FC<Props> = ({ projectId }) => {
 
     return (
         <>
-            <ActionButton onClick={handleOpen}>+ Add New Task</ActionButton>
+            <ActionButton onClick={handleOpen}>+ Add Task</ActionButton>
             <ModalRoot isActive={isActive} onClose={handleClose}>
                 <ModalBody>
                     <ModalHeader

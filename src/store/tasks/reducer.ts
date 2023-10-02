@@ -30,6 +30,7 @@ const tasksReducer = (
                 ...state,
                 tasks: state.tasks.map((task) => {
                     if (task.id === action.payload.id) {
+                        console.log("in reducer");
                         return { ...task, ...action.payload };
                     }
                     return task;
@@ -53,8 +54,6 @@ const tasksReducer = (
             // mutates the array
             const deletedTask = newTasksArray.splice(taskToSwapIndex, 1);
             deletedTask[0].status = newStatus;
-
-            console.log(deletedTask);
 
             const indexToInsert =
                 dir === "up" ? dropOnTaskIndex : dropOnTaskIndex + 1;

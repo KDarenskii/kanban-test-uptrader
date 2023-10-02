@@ -3,47 +3,4 @@
     &__header {
         margin-bottom: 0.85rem;
     }
-    // .full-task-modal__text
-    &__text {
-        font-size: 1rem;
-        line-height: 1.5rem;
-        color: var(--color-grey);
-        margin-bottom: 1.25rem;
-        &--uppercase {
-            text-transform: uppercase;
-        }
-    }
-    // .full-task-modal__subsection
-    &__subsection {
-        margin-bottom: 1.25rem;
-    }
-    // .full-task-modal__subtitle
-    &__subtitle {
-        color: var(--color-white);
-        font-size: 1rem;
-        line-height: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
-    // .full-task-modal__subtasks
-    &__subtasks {
-        margin-bottom: 0.75em;
-    }
-    // .full-task-modal__subtasks-item
-    &__subtasks-item {
-        margin-bottom: 0.5rem;
-    }
-    // .full-task-modal__subtask-text
-    &__subtask-text {
-        &--completed {
-            color: var(--color-grey);
-            text-decoration: line-through;
-        }
-    }
-    // .full-task-modal__status
-    &__status {
-        color: var(--color-grey);
-        font-size: 1.2rem;
-        line-height: 1.2rem;
-        text-transform: uppercase;
-    }
 }

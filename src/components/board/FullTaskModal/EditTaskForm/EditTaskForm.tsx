@@ -1,10 +1,7 @@
 import { FC, useImperativeHandle } from "react";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import {
     Control,
-    Controller,
     FieldError as FieldErrorType,
     RegisterOptions,
     SubmitHandler,
@@ -24,30 +21,26 @@ import { Textarea } from "components/ui/Textarea";
 
 import useFocus from "hooks/shared/useFocus";
 
+import { ITask } from "types/task.interface";
+
 import { formErrors } from "constants/formErrors";
 import { TaskPriority } from "constants/taskPriority";
 import { TaskStatuses } from "constants/taskStatuses";
 
-import "./addTaskForm.scss";
+import "./editTaskForm.scss";
 
-export interface AddTaskFormState {
+export interface EditTaskFormState {
     title: string;
     description: string;
     subtasks: { title: string }[];
-    file: File | null;
-    finishDate: Date;
     priority: TaskPriority;
     status: TaskStatuses;
 }
 
 interface FieldProps {
-    register: UseFormRegister<AddTaskFormState>;
+    register: UseFormRegister<EditTaskFormState>;
     error?: FieldErrorType;
-    control?: Control<AddTaskFormState>;
-}
-
-interface FormProps {
-    onSubmit: (data: AddTaskFormState) => void;
+    control?: Control<EditTaskFormState>;
 }
 
 const statusOptions: Option<TaskStatuses>[] = [
@@ -62,50 +55,66 @@ const priorityOptions: Option<TaskPriority>[] = [
     { value: TaskPriority.MAJOR, label: "Major" },
 ];
 
-const defaultValues: AddTaskFormState = {
-    title: "",
-    description: "",
-    subtasks: [{ title: "" }, { title: "" }],
-    file: null,
-    finishDate: new Date(),
-    priority: priorityOptions[0].value,
-    status: statusOptions[0].value,
-};
+interface FormProps {
+    task: ITask;
+    onSubmit: (data: EditTaskFormState) => void;
+    closeEditing: () => void;
+}
 
-const AddTaskForm: FC<FormProps> = ({ onSubmit }) => {
+const EditTaskForm: FC<FormProps> = ({ task, onSubmit, closeEditing }) => {
+    const { description, title, status, priority, subtasks } = task;
     const {
-        handleSubmit: submitHandlerWrapper,
         register,
+        handleSubmit: submitHandlerWrapper,
         reset,
         control,
         formState: { errors },
-    } = useForm<AddTaskFormState>({ defaultValues });
+    } = useForm<EditTaskFormState>({
+        defaultValues: {
+            description,
+            priority,
+            status,
+            subtasks,
+            title,
+        },
+    });
 
-    const handleSubmit: SubmitHandler<AddTaskFormState> = (data) => {
+    const handleSubmit: SubmitHandler<EditTaskFormState> = (data) => {
         onSubmit(data);
+        reset();
+    };
+
+    const handleBackButtonClick = () => {
+        closeEditing();
         reset();
     };
 
     return (
         <form
-            className="add-project-form"
+            className="edit-task-form"
             onSubmit={submitHandlerWrapper(handleSubmit)}
         >
             <Title register={register} error={errors.title} />
             <Description register={register} error={errors.description} />
             <Subtasks control={control} register={register} />
-            <Files control={control} register={register} />
             <Status register={register} />
             <Priority register={register} />
-            <FinishDate register={register} control={control} />
-            <ActionButton className="add-task-form__btn" type="submit">
-                Create task
+            <ActionButton className="edit-task-form__btn" type="submit">
+                Save
+            </ActionButton>
+            <ActionButton
+                className="edit-task-form__btn"
+                type="button"
+                variant="light"
+                onClick={handleBackButtonClick}
+            >
+                Go Back
             </ActionButton>
         </form>
     );
 };
 
-export default AddTaskForm;
+export default EditTaskForm;
 
 function Title({ register, error }: FieldProps) {
     const LENGTH_LIMIT = 35;
@@ -123,13 +132,13 @@ function Title({ register, error }: FieldProps) {
     useImperativeHandle(ref, () => titleRef.current);
 
     return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-title">Title</Label>
+        <FieldGroup className="edit-task-form__group">
+            <Label htmlFor="edit-task-form-title">Title</Label>
             <Input
-                className="add-task-form__input"
+                className="edit-task-form__input"
                 {...rest}
                 placeholder="e.g. Information System"
-                id="add-task-form-title"
+                id="edit-task-form-title"
                 type="text"
                 ref={titleRef}
                 aria-invalid={error ? "true" : "false"}
@@ -144,7 +153,7 @@ function Description({ register, error }: FieldProps) {
 
     const { required, maxLengthLimit } = formErrors;
 
-    const fieldOptions: RegisterOptions<AddTaskFormState, "description"> = {
+    const fieldOptions: RegisterOptions<EditTaskFormState, "description"> = {
         required: required,
         maxLength: {
             value: LENGTH_LIMIT,
@@ -153,13 +162,13 @@ function Description({ register, error }: FieldProps) {
     };
 
     return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-description">Description</Label>
+        <FieldGroup className="edit-task-form__group">
+            <Label htmlFor="edit-task-form-description">Description</Label>
             <Textarea
-                className="add-task-form__input"
+                className="edit-task-form__input"
                 {...register("description", fieldOptions)}
                 placeholder="e.g. Modern application that allows..."
-                id="add-task-form-description"
+                id="edit-task-form-description"
                 aria-invalid={error ? "true" : "false"}
             />
             {error && <FieldError>{error.message}</FieldError>}
@@ -174,16 +183,16 @@ function Subtasks({ register, control }: FieldProps) {
     });
 
     return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-subtask">Subtasks</Label>
+        <FieldGroup className="edit-task-form__group">
+            <Label htmlFor="edit-task-form-subtask">Subtasks</Label>
             {fields.map((field, index) => (
                 <InputGroup
-                    className="add-task-form__input-group"
+                    className="edit-task-form__input-group"
                     key={field.id}
                 >
                     <Input
-                        className="add-task-form__input"
-                        id={index === 0 ? "add-task-form-subtask" : undefined}
+                        className="edit-task-form__input"
+                        id={index === 0 ? "edit-task-form-subtask" : undefined}
                         placeholder={
                             index % 2
                                 ? "e.g. Make coffee"
@@ -192,13 +201,13 @@ function Subtasks({ register, control }: FieldProps) {
                         {...register(`subtasks.${index}.title` as const)}
                     />
                     <FaTimes
-                        className="add-task-form__input-icon"
+                        className="edit-task-form__input-icon"
                         onClick={() => remove(index)}
                     />
                 </InputGroup>
             ))}
             <ActionButton
-                className="add-task-form__btn"
+                className="edit-task-form__btn"
                 variant="light"
                 onClick={() => append({ title: "" })}
                 type="button"
@@ -209,36 +218,11 @@ function Subtasks({ register, control }: FieldProps) {
     );
 }
 
-function Files({ control }: FieldProps) {
-    return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-file">Files</Label>
-            <Controller
-                name="file"
-                control={control}
-                render={({ field: { value, onChange, ...field } }) => {
-                    return (
-                        <Input
-                            {...field}
-                            className="add-task-form__input"
-                            onChange={(event) =>
-                                onChange(event.target.files?.[0])
-                            }
-                            type="file"
-                            id="add-task-form-file"
-                        />
-                    );
-                }}
-            />
-        </FieldGroup>
-    );
-}
-
 function Status({ register }: FieldProps) {
     return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-status">Status</Label>
-            <Select {...register("status")} id="add-task-form-status">
+        <FieldGroup className="edit-task-form__group">
+            <Label htmlFor="edit-task-form-status">Status</Label>
+            <Select {...register("status")} id="edit-task-form-status">
                 {statusOptions.map(({ label, value }) => (
                     <option value={value} key={value}>
                         {label}
@@ -251,39 +235,15 @@ function Status({ register }: FieldProps) {
 
 function Priority({ register }: FieldProps) {
     return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-priority">Priority</Label>
-            <Select {...register("priority")} id="add-task-form-priority">
+        <FieldGroup className="edit-task-form__group">
+            <Label htmlFor="edit-task-form-priority">Priority</Label>
+            <Select {...register("priority")} id="edit-task-form-priority">
                 {priorityOptions.map(({ label, value }) => (
                     <option value={value} key={value}>
                         {label}
                     </option>
                 ))}
             </Select>
-        </FieldGroup>
-    );
-}
-
-function FinishDate({ control }: FieldProps) {
-    return (
-        <FieldGroup className="add-task-form__group">
-            <Label htmlFor="add-task-form-date">Finish date</Label>
-            <Controller
-                name="finishDate"
-                control={control}
-                render={({ field: { value, onChange, ...field } }) => {
-                    return (
-                        <DatePicker
-                            {...field}
-                            selected={value}
-                            onChange={(date) => onChange(date)}
-                            id="add-task-form-date"
-                            className="add-task-form__date-input"
-                            wrapperClassName="add-task-form__date-wrapper"
-                        />
-                    );
-                }}
-            />
         </FieldGroup>
     );
 }

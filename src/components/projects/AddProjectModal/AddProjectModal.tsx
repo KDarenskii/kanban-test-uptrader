@@ -13,7 +13,7 @@ const AddProjectModal: FC = () => {
 
     return (
         <>
-            <ActionButton onClick={handleOpen}>+ Add New Project</ActionButton>
+            <ActionButton onClick={handleOpen}>+ Add project</ActionButton>
             <ModalRoot isActive={isActive} onClose={handleClose}>
                 <ModalBody>
                     <ModalHeader

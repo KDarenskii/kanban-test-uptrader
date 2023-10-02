@@ -51,7 +51,6 @@ const AddProjectForm: FC<FormProps> = ({ onSubmit, className }) => {
     } = useForm<ProjectFormState>({ defaultValues });
 
     const handleSubmit: SubmitHandler<ProjectFormState> = (data) => {
-        console.log(data);
         onSubmit(data);
         reset();
     };

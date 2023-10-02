@@ -1,0 +1,54 @@
+.full-task-description {
+    // .full-task-description__title
+    &__title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    // .full-task-description__text
+    &__text {
+        font-size: 1rem;
+        line-height: 1.5rem;
+        color: var(--color-grey);
+        margin-bottom: 1.25rem;
+        &--uppercase {
+            text-transform: uppercase;
+        }
+    }
+    // .full-task-description__subsection
+    &__subsection {
+        margin-bottom: 1.25rem;
+    }
+    // .full-task-description__subtitle
+    &__subtitle {
+        color: var(--color-white);
+        font-size: 1rem;
+        line-height: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    // .full-task-description__subtasks
+    &__subtasks {
+        margin-bottom: 0.75em;
+    }
+    // .full-task-description__subtasks-item
+    &__subtasks-item {
+        margin-bottom: 0.5rem;
+    }
+    // .full-task-description__subtask-text
+    &__subtask-text {
+        &--completed {
+            color: var(--color-grey);
+            text-decoration: line-through;
+        }
+    }
+    // .full-task-description__status
+    &__status {
+        color: var(--color-grey);
+        font-size: 1.2rem;
+        line-height: 1.2rem;
+        text-transform: uppercase;
+    }
+    // .full-task-description__btn
+    &__btn {
+        width: 100%;
+    }
+}
